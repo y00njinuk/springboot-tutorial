@@ -1,4 +1,4 @@
-package com.tutorial.java;
+package com.jinuk.tutorial;
 
 public class Main {
     public static void main(String[] args) {
