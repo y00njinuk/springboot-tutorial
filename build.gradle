@@ -1,19 +1,31 @@
-plugins {
-    id 'java'
+buildscript {
+    ext { // build.gradle 내 사용하고자 하는 전역변수 설정
+        springBootVersion = '2.1.7.RELEASE'
+    }
+    repositories { // 의존성 라이브러리를 받을 원격 저장소 지정
+        mavenCentral()
+        jcenter()
+    }
+    dependencies { // 프로젝트 개발에 필요한 의존성 라이브러리 선언
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
 }
+
+// 플러그인 의존성 적용
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
 
 group 'com.tutorial.java'
 version '1.0-SNAPSHOT'
+sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
 }
 
-dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-}
-
-test {
-    useJUnitPlatform()
+dependencies { // 라이브러리 버전을 명시하지 않는 경우 위에서 선언한 전역변수를 따름
+    compile("org.springframework.boot:spring-boot-starter-web")
+    testCompile("org.springframework.boot:spring-boot-starter-test")
 }
