@@ -7,9 +7,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class) // 테스트 진행 시 JUnit에 내장된 실행파일 외 다른 실행파일을 실행
                              // SpringRunner? 스프링부트와 Junit 사이의 다리 역할을 한다.
@@ -27,5 +27,18 @@ public class HelloControllerTest {
         mvc.perform(get("/hello"))        // '/hello' 주소로 HTTP GET 요청
                 .andExpect(status().isOk())          // perform 메소드 검증 - HTTP Header의 status 검사
                 .andExpect(content().string(hello)); // perform 메소드 검증 - Response body 검사
+    }
+
+    @Test
+    public void helloDto가_리턴된다() throws Exception {
+        String name = "hello";
+        int amount = 1000;
+
+        mvc.perform(get("/hello/dto")
+                .param("name", name)
+                .param("amount", String.valueOf(amount)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", is(name)))
+                .andExpect(jsonPath("$.amount", is(amount)));
     }
 }
