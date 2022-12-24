@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor // final로 선언된 필드들에 대하여 생성자를 대신 생성해주는 어노테이션
 @RestController
 public class PostsApiController {
     private final PostsService postsService;
