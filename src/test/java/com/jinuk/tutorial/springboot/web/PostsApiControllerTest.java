@@ -98,7 +98,7 @@ public class PostsApiControllerTest {
     }
 
     @Test
-    public void Posts_정상적인ID값으로요청시응답을반환한다() {
+    public void Posts_정상적인_ID값으로_요청시_응답을반환한다() {
         // given
         String title = "title";
         String content = "content";
@@ -122,7 +122,7 @@ public class PostsApiControllerTest {
     }
 
     @Test
-    public void Posts_유효하지않은ID값으로요청시에러를반환한다() {
+    public void Posts_유효하지않은_ID값으로_요청시_에러를반환한다() {
         // given
         String title = "title";
         String content = "content";
