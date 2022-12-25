@@ -96,4 +96,53 @@ public class PostsApiControllerTest {
         assertThat(all.get(0).getTitle()).isEqualTo(expectedTitle);
         assertThat(all.get(0).getContent()).isEqualTo(expectedContent);
     }
+
+    @Test
+    public void Posts_정상적인ID값으로요청시응답을반환한다() {
+        // given
+        String title = "title";
+        String content = "content";
+        String author = "author";
+
+        Posts newPosts = Posts.builder()
+                .title(title)
+                .content(content)
+                .author(author)
+                .build();
+
+        postsRepository.save(newPosts);
+        Long getId = newPosts.getId();
+
+        String url = "http://localhost:" + port + "/api/v1/posts/" + getId;
+        ResponseEntity<Posts> responseEntity = restTemplate.getForEntity(url, Posts.class);
+
+        assertThat(responseEntity.getBody().getTitle()).isEqualTo(title);
+        assertThat(responseEntity.getBody().getContent()).isEqualTo(content);
+        assertThat(responseEntity.getBody().getAuthor()).isEqualTo(author);
+    }
+
+    @Test
+    public void Posts_유효하지않은ID값으로요청시에러를반환한다() {
+        // given
+        String title = "title";
+        String content = "content";
+        String author = "author";
+
+        Posts newPosts = Posts.builder()
+                .title(title)
+                .content(content)
+                .author(author)
+                .build();
+
+        postsRepository.save(newPosts);
+        Long getId = newPosts.getId();
+
+        String url = "http://localhost:" + port + "/api/v1/posts/" + getId + "dummy";
+        ResponseEntity<Posts> responseEntity = restTemplate.getForEntity(url, Posts.class);
+
+        System.out.println(responseEntity.getStatusCode()); // 400 BAD_REQUEST
+
+        // status code is in the HTTP series HttpStatus.Series.CLIENT_ERROR or HttpStatus.Series.SERVER_ERROR
+        assertThat(responseEntity.getStatusCode().isError());
+    }
 }

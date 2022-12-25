@@ -2,6 +2,7 @@ package com.jinuk.tutorial.springboot.service.posts;
 
 import com.jinuk.tutorial.springboot.domain.posts.Posts;
 import com.jinuk.tutorial.springboot.domain.posts.PostsRepository;
+import com.jinuk.tutorial.springboot.web.dto.PostsResponseDto;
 import com.jinuk.tutorial.springboot.web.dto.PostsSaveRequestDto;
 import com.jinuk.tutorial.springboot.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -26,5 +27,12 @@ public class PostsService {
         posts.update(requestDto.getTitle(), requestDto.getContent());
         
         return id;
+    }
+
+    public PostsResponseDto findById(Long id) {
+        Posts entity = postsRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
+
+        return new PostsResponseDto(entity);
     }
 }
