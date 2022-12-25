@@ -1,5 +1,6 @@
 package com.jinuk.tutorial.springboot.domain.posts;
 
+import com.jinuk.tutorial.springboot.domain.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @Entity // 테이블과 매핑이 될 클래스임을 나타내는 어노테이션
         // 기본값으로 클래스의 카멜케이스 표기방식으로 테이블의 이름을 매핑
         // ex) SalesManager.java -> sales_manager table
-public class Posts {
+public class Posts extends BaseTimeEntity {
     @Id // PK 필드
     @GeneratedValue(strategy = GenerationType.IDENTITY) // PK 생성 규칙
     private Long id;
