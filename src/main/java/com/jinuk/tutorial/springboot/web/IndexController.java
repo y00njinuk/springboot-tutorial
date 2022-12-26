@@ -1,5 +1,7 @@
 package com.jinuk.tutorial.springboot.web;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
@@ -8,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
  * 앞의 경로 - src/main/resources/templates/
  * 뒤의 경로 - .mustache
  */
+@RequiredArgsConstructor
+@Controller
 public class IndexController {
     /**
      * index page.
@@ -18,6 +22,10 @@ public class IndexController {
         return "index";
     }
 
+    /**
+     * new posts page.
+     * @return src/main/resources/templates/posts-save.mustache
+     */
     @GetMapping("/posts/save")
     public String postsSave() {
         return "posts-save";
