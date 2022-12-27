@@ -46,4 +46,13 @@ public class PostsService {
                 .map(PostsListResponseDto::new)
                 .collect(Collectors.toList());
     }
+
+    // 존재하는 엔티티인지 우선적으로 확인 후 삭제 작업을 진행하며, 삭제는 JPA 메소드를 활용
+    @Transactional
+    public void delete(Long id) {
+        Posts posts = postsRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
+
+        postsRepository.delete(posts);
+    }
 }
