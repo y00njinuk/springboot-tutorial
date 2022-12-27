@@ -1,10 +1,12 @@
 package com.jinuk.tutorial.springboot.web;
 
 import com.jinuk.tutorial.springboot.service.posts.PostsService;
+import com.jinuk.tutorial.springboot.web.dto.PostsResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  * 매핑된 URL에 따라 페이지를 반환하는 컨트롤러
@@ -38,5 +40,17 @@ public class IndexController {
     @GetMapping("/posts/save")
     public String postsSave() {
         return "posts-save";
+    }
+
+    /**
+     * posts update page.
+     * @return src/main/resources/templates/post-update.mustache
+     */
+    @GetMapping("/posts/update/{id}")
+    public String postsUpdate(@PathVariable Long id, Model model) {
+        PostsResponseDto dto = postsService.findById(id);
+        model.addAttribute("post", dto);
+
+        return "posts-update";
     }
 }
