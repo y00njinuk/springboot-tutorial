@@ -1,5 +1,6 @@
 package com.jinuk.tutorial.springboot.web;
 
+import com.jinuk.tutorial.springboot.config.auth.dto.SessionUser;
 import com.jinuk.tutorial.springboot.service.posts.PostsService;
 import com.jinuk.tutorial.springboot.web.dto.PostsResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * 매핑된 URL에 따라 페이지를 반환하는 컨트롤러
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class IndexController {
     private final PostsService postsService;
+    private final HttpSession httpSession;
 
     /**
      * index page.
@@ -30,6 +34,12 @@ public class IndexController {
           postsService.findAllDEsc()로 가져온 결과를 posts 변수로 index.mustache에 전달
          */
         model.addAttribute("posts", postsService.findAllDesc());
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+
+        if(user != null) {
+            model.addAttribute("userName", user.getName());
+        }
+
         return "index";
     }
 
