@@ -1,5 +1,6 @@
 package com.jinuk.tutorial.springboot.web;
 
+import com.jinuk.tutorial.springboot.config.auth.LoginUser;
 import com.jinuk.tutorial.springboot.config.auth.dto.SessionUser;
 import com.jinuk.tutorial.springboot.service.posts.PostsService;
 import com.jinuk.tutorial.springboot.web.dto.PostsResponseDto;
@@ -28,13 +29,12 @@ public class IndexController {
      * @return src/main/resources/templates/index.mustache
      */
     @GetMapping("/")
-    public String index(Model model) {
+    public String index(Model model, @LoginUser SessionUser user) {
         /*
           Model은 서버 템플릿 엔진에서 사용할 수 있는 객체를 저장할 수 있다.
           postsService.findAllDEsc()로 가져온 결과를 posts 변수로 index.mustache에 전달
          */
         model.addAttribute("posts", postsService.findAllDesc());
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
 
         if(user != null) {
             model.addAttribute("userName", user.getName());
