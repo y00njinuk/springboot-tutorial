@@ -11,9 +11,11 @@
                     Logged in as: <span id="user">{{userName}}</span>
                     <a href="/logout" class="btn btn-info active" role="button">Logout</a>
                 {{/userName}}
-                <!-- /oauth2/authorization/google : 스프링 시큐리티에서 기본적으로 제공하는 로그인 URL -->
+                <!-- /oauth2/authorization/ : 스프링 시큐리티에서 기본적으로 제공하는 로그인 URL -->
                 {{^userName}}
+                    <!-- 마지막 Path 부분만 각 소셜의 로그인 코드를 사용 -->
                     <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">Google Login</a>
+                    <a href="/oauth2/authorization/naver" class="btn btn-success active" role="button">Naver Login</a>
                 {{/userName}}
             </div>
         </div>
