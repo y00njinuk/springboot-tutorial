@@ -15,6 +15,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -39,6 +40,9 @@ public class PostsApiControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "USER") // spring-security-test 에서 제공하는 어노테이션
+                                  // 인증이 보장된 가짜 사용자를 생성
+                                  // ROLE_USER 권한을 가진 사용자가 API를 호출하는 것과 동일함
     public void Posts_등록된다() throws Exception {
         // given
         String title = "title";
@@ -64,6 +68,7 @@ public class PostsApiControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
     public void Posts_수정된다() throws Exception {
         // given
         Posts savedPosts = postsRepository.save(Posts.builder()
