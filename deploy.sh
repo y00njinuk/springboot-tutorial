@@ -1,6 +1,6 @@
 #!/bin/bash
 
-REPOSITORY=/root/app/step1/
+REPOSITORY=/root/app/step1
 PROJECT_NAME=springboot-tutorial
 
 cd $REPOSITORY/$PROJECT_NAME
