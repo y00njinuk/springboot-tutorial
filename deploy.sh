@@ -1,6 +1,6 @@
 #!/bin/bash
 
-REPOSITORY=/root/app/step1
+REPOSITORY=/root/app/step1/
 PROJECT_NAME=springboot-tutorial
 
 cd $REPOSITORY/$PROJECT_NAME
@@ -33,9 +33,11 @@ echo "> 새 애플리케이션 배포"
 JAR_NAME=$(ls -tr $REPOSITORY/ | grep jar | tail -n 1)
 
 echo "> JAR NAME : $JAR_NAME"
-nohup java -jar \
-    # 스프링의 설정 파일 위치를 지정한다.
-    # classpath는 jar 안에 있는 resources 디렉토리를 기준으로 경로가 생성된다.
-    # application-oauth.properties는 프로젝트 외부에서 관리해야 하므로 절대 경로를 사용한다.
-    -Dspring.config.location=classpath:/application.properties,/root/app/step1/application-oauth.properties \
-    $REPOSITORY/$JAR_NAME 2>&1 &
+
+echo "> $JAR_NAME 에 실행권한 추가"
+chmod +x $JAR_NAME
+
+# 스프링의 설정 파일 위치를 지정한다.
+# classpath는 jar 안에 있는 resources 디렉토리를 기준으로 경로가 생성된다.
+# application-oauth.properties는 프로젝트 외부에서 관리해야 하므로 절대 경로를 사용한다.
+nohup java -Dspring.config.location=classpath:/application.properties,/root/app/application-oauth.properties,/root/app/application-real-db.properties,classpath:/application-real.properties -Dspring.profiles.active=real -jar $REPOSITORY/$JAR_NAME 2>&1 &
