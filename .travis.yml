@@ -19,6 +19,24 @@ cache:
 # branches에서 지정한 브랜치에 push 후 수행되는 스크립트
 script: "./gradlew clean build"
 
+# deploy 명령어가 수행되기 전에 작업
+before_deploy:
+  - zip -r springboot-tutorial * # CodeDeploy는 Jar 파일을 인식하지 못하므로 Jar+기타파일들을 압축
+  - mkdir -p deploy
+  - mv springboot-tutorial.zip deploy/springboot-tutorial.zip
+
+# 외부 서비스와 연동될 행위들을 정의
+deploy:
+  provider: s3
+  access_key_id: $AWS_ACCESS_KEY # Travis Repo 참고
+  secret_access_key: $AWS_SECRET_KEY # Travis Repo 참고
+  bucket: springboot-tutorial-s3
+  region: ap-northeast-2
+  skip_cleanup: true
+  acl: private # s3 버킷에 올린 파일들의 접근을 private으로 정의
+  local_dir: deploy # 해당 위치에 속한 파일들만 s3 버킷으로 전송
+  wait-until-deployed: true
+
 # CI 실행 완료 시 메일로 알람
 notifications:
   email:
