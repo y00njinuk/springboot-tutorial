@@ -1,0 +1,26 @@
+language: java
+
+jdk:
+  - openjdk8
+
+# Travis CI를 수행되는 브랜치 지정
+# 해당 브랜치에 Push 후 CI 작업이 시작
+branches:
+  only:
+    - master
+
+# 해당 디렉토리에 있는 파일들을 캐시
+# Travis CI 서버의 Home으로 지정
+cache:
+  directories:
+    - '$HOME/.m2.repository'
+    - '$HOME/.gradle'
+
+# branches에서 지정한 브랜치에 push 후 수행되는 스크립트
+script: "./gradlew clean build"
+
+# CI 실행 완료 시 메일로 알람
+notifications:
+  email:
+    recipients:
+      - jinuknamja@gmail.com
