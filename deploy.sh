@@ -40,4 +40,11 @@ chmod +x $JAR_NAME
 # 스프링의 설정 파일 위치를 지정한다.
 # classpath는 jar 안에 있는 resources 디렉토리를 기준으로 경로가 생성된다.
 # application-oauth.properties는 프로젝트 외부에서 관리해야 하므로 절대 경로를 사용한다.
-nohup java -Dspring.config.location=classpath:/application.properties,/root/app/application-oauth.properties,/root/app/application-real-db.properties,classpath:/application-real.properties -Dspring.profiles.active=real -jar $REPOSITORY/$JAR_NAME 2>&1 &
+nohup java\
+ -Dspring.config.location=\
+classpath:/application.properties,\
+classpath:/application-real.properties,\
+/root/app/application-oauth.properties,\
+/root/app/application-real-db.properties\
+ -Dspring.profiles.active=real\
+ -jar $REPOSITORY/$JAR_NAME 2>&1 &
