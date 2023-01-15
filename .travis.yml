@@ -21,9 +21,13 @@ script: "./gradlew clean build"
 
 # deploy 명령어가 수행되기 전에 작업
 before_deploy:
-  - zip -r springboot-tutorial * # CodeDeploy는 Jar 파일을 인식하지 못하므로 Jar+기타파일들을 압축
-  - mkdir -p deploy
-  - mv springboot-tutorial.zip deploy/springboot-tutorial.zip
+  - mkdir -p before-deploy # zip에 포함시킬 파일들을 담을 디렉토리 생성
+  - cp scripts/*.sh before-deploy/ # scripts 폴더 내 스크립트 포함
+  - cp appspec.yml before-deploy/ # appspec.yml 포함
+  - cp build/libs/*.jar before-deploy/ # jar 파일 포함
+  - cd before-deploy && zip -r before-deploy * # before-deploy 디렉토리 압축
+  - cd ../ && mkdir -p deploy
+  - mv before-deploy/before-deploy.zip deploy/springboot-tutorial.zip
 
 # 외부 서비스와 연동될 행위들을 정의
 deploy:
