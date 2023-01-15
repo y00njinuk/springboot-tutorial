@@ -27,15 +27,25 @@ before_deploy:
 
 # 외부 서비스와 연동될 행위들을 정의
 deploy:
-  provider: s3
-  access_key_id: $AWS_ACCESS_KEY # Travis Repo 참고
-  secret_access_key: $AWS_SECRET_KEY # Travis Repo 참고
-  bucket: springboot-tutorial-s3
-  region: ap-northeast-2
-  skip_cleanup: true
-  acl: private # s3 버킷에 올린 파일들의 접근을 private으로 정의
-  local_dir: deploy # 해당 위치에 속한 파일들만 s3 버킷으로 전송
-  wait-until-deployed: true
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY # Travis Repo 참고
+    secret_access_key: $AWS_SECRET_KEY # Travis Repo 참고
+    bucket: springboot-tutorial-s3
+    region: ap-northeast-2
+    skip_cleanup: true
+    acl: private # s3 버킷에 올린 파일들의 접근을 private으로 정의
+    local_dir: deploy # 해당 위치에 속한 파일들만 s3 버킷으로 전송
+    wait-until-deployed: true
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY # Travis Repo 참고
+    secret_access_key: $AWS_SECRET_KEY # Travis Repo 참고
+    bucket: springboot-tutorial-s3
+    key: springboot-tutorial.zip # s3 버킷에 저장된 zip 파일
+    bundle_type: zip
+    application: springboot-tutorial-webservice # Codedeploy 애플리케이션
+    deployment_group: springboot-tutorial-webservice-group # Codedeploy 애플리케이션 그룹명
+    region: ap-northeast-2
+    wait-until-deployed: true
 
 # CI 실행 완료 시 메일로 알람
 notifications:
