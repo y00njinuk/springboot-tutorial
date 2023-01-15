@@ -4,3 +4,15 @@ files:
   - source: / # CodeDeploy에서 전달해준 파일 중 destination으로 이동시킬 대상 지정, 루트 경로(/)일 경우에는 전체 파일을 의미
     destination: /root/app/step2/zip/
     overwrite: yes
+
+permissions:
+  - object: /
+    pattern: "**"
+    owner: root
+    group: root
+
+hooks:
+  ApplicationStart:
+    - location: deploy.sh
+      timeout: 60
+      runas: root
